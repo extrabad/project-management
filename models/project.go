@@ -81,7 +81,7 @@ func newProjectPrompt() string {
 
 /* other */
 // TODO: want to centralize prompts
-func createProject(db *gorm.DB) Project {
+func CreateProject(db *gorm.DB) Project {
 	name := newProjectPrompt()
 	PrintProjects(db)
 	proj := Project{Name: name}
@@ -89,10 +89,10 @@ func createProject(db *gorm.DB) Project {
 	return proj
 }
 
-func getorCreateProject(pKey int, db *gorm.DB) Project {
+func GetOrCreateProject(pKey int, db *gorm.DB) Project {
 	proj := getProject(pKey, db)
 	if proj.ID == notFound {
-		return createProject(db)
+		return CreateProject(db)
 	}
 	return proj
 }

@@ -71,12 +71,18 @@ func DeleteProject(pKey int, db *gorm.DB) {
 	db.Delete(&Project{}, pKey)
 }
 
-/* other */
-// TODO: want to centralize prompts
-func createProject(db *gorm.DB) Project {
+// TODO: move to a more appropriate place
+func newProjectPrompt() string {
 	var name string
 	fmt.Println("what would you like to name your project?")
 	fmt.Scanf("%s", &name)
+	return name
+}
+
+/* other */
+// TODO: want to centralize prompts
+func createProject(db *gorm.DB) Project {
+	name := newProjectPrompt()
 	PrintProjects(db)
 	proj := Project{Name: name}
 	db.Create(&proj)
@@ -89,4 +95,12 @@ func getorCreateProject(pKey int, db *gorm.DB) Project {
 		return createProject(db)
 	}
 	return proj
+}
+
+func RenameProject(pKey int, db *gorm.DB) {
+	name := newProjectPrompt()
+	var project Project
+	db.Where("id = ?", pKey).First(&project)
+	project.Name = name
+	db.Save(&project)
 }

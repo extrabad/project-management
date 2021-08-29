@@ -29,10 +29,10 @@ func handleFlags(db *gorm.DB) {
 	if *editProj != -1 {
 		models.RenameProject(*editProj, db)
 	}
-	if *markdown != false {
+	if *markdown {
 		utils.OutputMarkdown(entries)
 	}
-	if *pdf != false {
+	if *pdf {
 		utils.OutputPdf(entries)
 	}
 	if *start != "" {

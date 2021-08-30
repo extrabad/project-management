@@ -22,6 +22,9 @@ func handleFlags(db *gorm.DB) {
 	if *deleteEntry != -1 {
 		models.DeleteEntry(*deleteEntry, db)
 	}
+	if *listProj {
+		models.PrintProjects(db)
+	}
 	if *deleteProj != -1 {
 		models.DeleteProject(*deleteProj, db)
 	}

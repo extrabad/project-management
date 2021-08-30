@@ -13,6 +13,7 @@ type Project struct {
 	Name string
 }
 
+// TODO: change to PrintAllEntries
 func PrintAll(project Project, db *gorm.DB) {
 	var entries []Entry
 	db.Where("project_id = ?", project.ID).Find(&entries) // note to self: queries should be snakecase

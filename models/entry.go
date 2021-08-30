@@ -19,11 +19,6 @@ type Entry struct {
 
 const divider = "_______________________________________"
 
-// SaveNewEntry: save a new entry to the db
-func (p *Project) SaveNewEntry(message string, db *gorm.DB) {
-	db.Create(&Entry{Message: message, ProjectId: p.ID})
-}
-
 // DeleteEntry: delete an entry by id
 func DeleteEntry(pKey int, db *gorm.DB) {
 	fmt.Println(pKey)
@@ -37,13 +32,13 @@ func GetEntriesByDate(start time.Time, end time.Time, db *gorm.DB) []Entry {
 	return entries
 }
 
-// CreateEntryFromFile: write and save entry
-func CreateEntryFromFile(pKey int, db *gorm.DB) {
+// CreateEntry: write and save entry
+func CreateEntry(pKey int, db *gorm.DB) {
 	message := utils.CaptureInputFromFile()
 	// convert []byte to string can be done vvv
-	fmt.Println(string(message[:]))
 	myproject := GetOrCreateProject(pKey, db)
-	myproject.SaveNewEntry(string(message[:]), db)
+	db.Create(&Entry{Message: string(message[:]), ProjectId: myproject.ID})
+	fmt.Println(string(message[:]) + " was successfully written to " + myproject.Name)
 }
 
 func formattedOutputFromEntries(entries []Entry) []byte {

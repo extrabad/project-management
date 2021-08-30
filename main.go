@@ -17,7 +17,7 @@ func handleFlags(db *gorm.DB) {
 	var entries []models.Entry
 	db.Find(&entries) // contains all data from table
 	if *cEntry != -1 {
-		models.CreateEntryFromFile(*cEntry, db)
+		models.CreateEntry(*cEntry, db)
 	}
 	if *deleteEntry != -1 {
 		models.DeleteEntry(*deleteEntry, db)

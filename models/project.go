@@ -13,15 +13,6 @@ type Project struct {
 	Name string
 }
 
-// TODO: change to PrintAllEntries
-func PrintAll(project Project, db *gorm.DB) {
-	var entries []Entry
-	db.Where("project_id = ?", project.ID).Find(&entries) // note to self: queries should be snakecase
-	for _, entry := range entries {
-		fmt.Printf(Format, entry.ID, entry.Message)
-	}
-}
-
 func PrintProjects(db *gorm.DB) {
 	if hasProjects(db) {
 		projects := getAllProjects(db)

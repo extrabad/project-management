@@ -58,7 +58,7 @@ func projectPrompt(db *gorm.DB) models.Project {
 	fmt.Scanf("%d", &input)
 	// read in input + assign to project
 	fmt.Printf("selection is %d \n", input)
-	return models.CreateProject(db)
+	return models.CreateProject("", db)
 }
 
 func OpenSqlite() *gorm.DB {

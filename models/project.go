@@ -63,28 +63,10 @@ func DeleteProject(pKey int, db *gorm.DB) {
 	db.Delete(&Project{}, pKey)
 }
 
-// TODO: move to a more appropriate place
-func newProjectPrompt() string {
-	var name string
-	fmt.Println("what would you like to name your project?")
-	fmt.Scanf("%s", &name)
-	return name
-}
-
-/* other */
-// TODO: want to centralize prompts
-func CreateProject(db *gorm.DB) Project {
-	name := newProjectPrompt()
-	PrintProjects(db)
-	proj := Project{Name: name}
-	db.Create(&proj)
-	return proj
-}
-
 func GetOrCreateProject(pKey int, db *gorm.DB) Project {
 	proj := getProject(pKey, db)
 	if proj.ID == notFound {
-		return CreateProject(db)
+		return CreateProject("", db)
 	}
 	return proj
 }
@@ -95,4 +77,21 @@ func RenameProject(pKey int, db *gorm.DB) {
 	db.Where("id = ?", pKey).First(&project)
 	project.Name = name
 	db.Save(&project)
+}
+
+/* PROMPTS */
+func newProjectPrompt() string {
+	var name string
+	fmt.Println("what would you like to name your project?")
+	fmt.Scanf("%s", &name)
+	return name
+}
+
+func CreateProject(name string, db *gorm.DB) Project {
+	if name == "" {
+		name = newProjectPrompt()
+	}
+	proj := Project{Name: name}
+	db.Create(&proj)
+	return proj
 }
